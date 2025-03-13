@@ -1,6 +1,7 @@
 package com.projectgenerator.ai.aiProjectGenertor.service;
 
 import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
+import com.projectgenerator.ai.aiProjectGenertor.service.aiService.RepositoryPromptService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,20 @@ public class CreateRepositoryService {
     @Value("${app.working-directory}")
     private String workingDirectory;
 
-    public void createRepository(ProjectDetailsModel projectDetails)throws IOException {
+    private RepositoryPromptService repositoryPromptService;
+
+    public CreateRepositoryService(RepositoryPromptService repositoryPromptService){
+        this.repositoryPromptService=repositoryPromptService;
+    }
+
+    public void createRepository(ProjectDetailsModel projectDetails,String serviceClassCode)throws IOException {
+        String code=repositoryPromptService.getRepositoryCode(projectDetails,serviceClassCode);
         Map<String, String> placeholders = Map.of(
                 "packageName", projectDetails.getGroupId(),
                 "packageClass",projectDetails.getProjectName(),
-                "model_name",projectDetails.getEntity().getEntityName()
+                "repository_code",code
         );
-
+        System.out.println("Repository class response : "+code);
         ClassPathResource resource = new ClassPathResource("templates/RepositoryTemplate.java");
         String content;
         try (InputStream inputStream = resource.getInputStream(); Scanner scanner = new Scanner(inputStream)) {

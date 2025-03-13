@@ -7,18 +7,18 @@ public class ProjectDetailsModel {
     private String artifactId;
     private String description;
     private ControllerModel controllerModel;
-    private ServiceClassModel serviceClass;
+    private String serviceClassName;
     private EntityModel entity;
 
     public ProjectDetailsModel() {
     }
 
-    public ProjectDetailsModel(String projectName, String groupId, String artifactId, ControllerModel controllerModel,ServiceClassModel serviceClass,EntityModel entityModel, String description) {
+    public ProjectDetailsModel(String projectName, String groupId, String artifactId, ControllerModel controllerModel,String serviceClassName,EntityModel entityModel, String description) {
         this.projectName = projectName;
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.controllerModel=controllerModel;
-        this.serviceClass= serviceClass;
+        this.serviceClassName= serviceClassName;
         this.entity = entityModel;
         this.description=description;
     }
@@ -63,12 +63,12 @@ public class ProjectDetailsModel {
         this.controllerModel = controllerModel;
     }
 
-    public ServiceClassModel getServiceClass() {
-        return serviceClass;
+    public String getServiceClass() {
+        return serviceClassName;
     }
 
-    public void setServiceClass(ServiceClassModel serviceClass) {
-        this.serviceClass = serviceClass;
+    public void setServiceClass(String serviceClassName) {
+        this.serviceClassName = serviceClassName;
     }
 
     public EntityModel getEntity() {
