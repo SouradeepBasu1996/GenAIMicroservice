@@ -19,22 +19,16 @@ public class ProjectGeneratorService {
     private final ZipService zipService;
     private final CreatePomService createPomService;
     private final CreateMainClassService createMainClassService;
-    private final CreateRepositoryService createRepositoryService;
-    private final CreateServiceClassService createServiceClassService;
     private final CreateControllerService createControllerService;
     private final CreateEntityService createEntityService;
 
     public ProjectGeneratorService(CreatePomService createPomService,
                                    CreateMainClassService createMainClassService,
-                                   CreateRepositoryService createRepositoryService,
-                                   CreateServiceClassService createServiceClassService,
                                    CreateControllerService createControllerService,
                                    CreateEntityService createEntityService,
                                    ZipService zipService){
         this.createPomService=createPomService;
         this.createMainClassService=createMainClassService;
-        this.createRepositoryService=createRepositoryService;
-        this.createServiceClassService=createServiceClassService;
         this.createControllerService=createControllerService;
         this.createEntityService=createEntityService;
         this.zipService=zipService;
@@ -45,11 +39,9 @@ public class ProjectGeneratorService {
         Path projectDir = getProjectRootPath(projectDetails.getProjectName());
 
         createPomService.generatePom(projectDetails);
-        createRepositoryService.createRepository(projectDetails);
         createControllerService.createControllerClass(projectDetails);
         createMainClassService.createMainClass(projectDetails);
         createEntityService.createEntityClass(projectDetails);
-        createServiceClassService.createServiceClass(projectDetails);
 
         Files.createDirectories(projectDir);
         createBasicStructure(projectDetails);

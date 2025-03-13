@@ -1,7 +1,7 @@
 package com.projectgenerator.ai.aiProjectGenertor.service;
 
 import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
-import com.projectgenerator.ai.aiProjectGenertor.service.aiService.PromptService;
+import com.projectgenerator.ai.aiProjectGenertor.service.aiService.ServiceClassPromptService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -20,65 +20,29 @@ public class CreateServiceClassService {
     @Value("${app.working-directory}")
     private String workingDirectory;
 
-    private final PromptService promptService;
+    private final ServiceClassPromptService promptService;
+    private final CreateRepositoryService createRepositoryService;
 
-    public CreateServiceClassService(PromptService promptService){
+    public CreateServiceClassService(ServiceClassPromptService promptService,
+                                     CreateRepositoryService createRepositoryService){
         this.promptService=promptService;
+        this.createRepositoryService=createRepositoryService;
     }
 
 
-    public void createServiceClass(ProjectDetailsModel projectDetails)throws IOException {
+    public void createServiceClass(ProjectDetailsModel projectDetails,String controllerClassCode)throws IOException {
 
-        String repositoryName = projectDetails.getEntity().getEntityName();
-        StringBuilder repoBuilder = new StringBuilder();
-        StringBuilder importBuilder = new StringBuilder();
-        StringBuilder modelImportBuilder = new StringBuilder();
-        StringBuilder methodBuilder = new StringBuilder();
-
-        String promptResponse = promptService.generateServiceClassCode(projectDetails);
-        System.out.println("Prompt Response : "+promptResponse);
-
-
-        repoBuilder.append("\tprivate ")
-                .append(repositoryName)
-                .append("Repository")
-                .append(" ")
-                .append(createRepositoryObj(repositoryName))
-                .append("Repository")
-                .append(";\n");
-
-        modelImportBuilder.append("import")
-                .append(" ")
-                .append(projectDetails.getGroupId())
-                .append(".")
-                .append(projectDetails.getProjectName())
-                .append(".")
-                .append("entity")
-                .append(".")
-                .append(repositoryName)
-                .append(";\n");
-
-        importBuilder.append("import ")
-                .append(projectDetails.getGroupId())
-                .append(".")
-                .append(projectDetails.getProjectName())
-                .append(".")
-                .append("repository.")
-                .append(repositoryName)
-                .append("Repository")
-                .append(";\n");
-
-        methodBuilder.append(promptResponse);
+        String code = promptService.getServiceClassCode(projectDetails,controllerClassCode);
+        System.out.println("Prompt Response : "+code);
 
         Map<String, String> placeholders = Map.of(
                 "packageName",projectDetails.getGroupId(),
                 "packageClass",projectDetails.getArtifactId(),
-                "serviceClassName",projectDetails.getServiceClass().getServiceClassName(),
-                "imports",importBuilder.toString(),
-                "repositories",repoBuilder.toString(),
-                "entity_imports",modelImportBuilder.toString(),
-                "methods",methodBuilder.toString()
+                "service_class_code",code
         );
+
+        createRepositoryService.createRepository(projectDetails,code);
+
         ClassPathResource resource = new ClassPathResource("templates/ServiceClassTemplate.java");
         String content;
         try (InputStream inputStream = resource.getInputStream(); Scanner scanner = new Scanner(inputStream)) {
@@ -103,7 +67,7 @@ public class CreateServiceClassService {
         Files.createDirectories(targetDir); // Ensure directory exists
 
         // Define target file path
-        Path targetPath = targetDir.resolve(projectDetails.getServiceClass().getServiceClassName()+ ".java");
+        Path targetPath = targetDir.resolve(projectDetails.getServiceClass()+ ".java");
 
         // Write processed content to the new service class
         Files.writeString(targetPath, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);

@@ -1,7 +1,7 @@
 package com.projectgenerator.ai.aiProjectGenertor.service;
 
 import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
-import com.projectgenerator.ai.aiProjectGenertor.service.aiService.PromptService;
+import com.projectgenerator.ai.aiProjectGenertor.service.aiService.ControllerPromptService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -20,19 +20,24 @@ public class CreateControllerService {
     @Value("${app.working-directory}")
     private String workingDirectory;
 
-    private final PromptService promptService;
+    private final ControllerPromptService promptService;
+    private final CreateServiceClassService createServiceClassService;
 
-    public CreateControllerService(PromptService promptService){
+    public CreateControllerService(ControllerPromptService promptService,
+                                   CreateServiceClassService createServiceClassService){
         this.promptService=promptService;
+        this.createServiceClassService=createServiceClassService;
     }
 
     public void createControllerClass(ProjectDetailsModel projectDetails)throws IOException {
-        String code = promptService.generateControllerClassCode(projectDetails);
+        String code = promptService.generateControllerCode(projectDetails);
+
         Map<String, String> placeholders = Map.of(
                 "packageName",projectDetails.getGroupId(),
                 "packageClass",projectDetails.getProjectName(),
                 "controller",code);
-
+        System.out.println("Controller class response : "+code);
+        createServiceClassService.createServiceClass(projectDetails,code);
         ClassPathResource resource = new ClassPathResource("templates/ControllerTemplate.java");
         String content;
         try (InputStream inputStream = resource.getInputStream(); Scanner scanner = new Scanner(inputStream)) {
