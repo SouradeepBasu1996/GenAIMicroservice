@@ -1,4 +1,4 @@
-package com.projectgenerator.ai.aiProjectGenertor.configuration;
+package com.projectgenerator.ai.genAiMicroservice.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

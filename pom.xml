@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.projectgenerator.ai</groupId>
-	<artifactId>aiProjectGenertor</artifactId>
+	<artifactId>genAiMicroservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>aiProjectGenertor</name>
+	<name>genAiMicroservice</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

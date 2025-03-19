@@ -1,7 +1,6 @@
-package com.projectgenerator.ai.aiProjectGenertor.service;
+package com.projectgenerator.ai.genAiMicroservice.service;
 
-import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
-import com.projectgenerator.ai.aiProjectGenertor.service.aiService.ControllerPromptService;
+import com.projectgenerator.ai.genAiMicroservice.model.ProjectDetailsModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -15,30 +14,22 @@ import java.util.Map;
 import java.util.Scanner;
 
 @Service
-public class CreateControllerService {
+public class CreateMainClassService {
 
     @Value("${app.working-directory}")
     private String workingDirectory;
 
-    private final ControllerPromptService promptService;
-    private final CreateServiceClassService createServiceClassService;
-
-    public CreateControllerService(ControllerPromptService promptService,
-                                   CreateServiceClassService createServiceClassService){
-        this.promptService=promptService;
-        this.createServiceClassService=createServiceClassService;
-    }
-
-    public void createControllerClass(ProjectDetailsModel projectDetails)throws IOException {
-        String code = promptService.generateControllerCode(projectDetails);
-
+    public void createMainClass(ProjectDetailsModel projectDetails)throws IOException {
+        String className = projectDetails.getProjectName()
+                .substring(0,1)
+                .toUpperCase()+projectDetails.getProjectName()
+                .substring(1)+"Application";
         Map<String, String> placeholders = Map.of(
-                "packageName",projectDetails.getGroupId(),
+                "packageName", projectDetails.getGroupId(),
                 "packageClass",projectDetails.getProjectName(),
-                "controller",code);
-        System.out.println("Controller class response : "+code);
-        createServiceClassService.createServiceClass(projectDetails,code);
-        ClassPathResource resource = new ClassPathResource("templates/ControllerTemplate.java");
+                "className", className);
+
+        ClassPathResource resource = new ClassPathResource("templates/MainClassTemplate.java");
         String content;
         try (InputStream inputStream = resource.getInputStream(); Scanner scanner = new Scanner(inputStream)) {
             content = scanner.useDelimiter("\\A").next(); // Read entire file as a string
@@ -56,17 +47,16 @@ public class CreateControllerService {
         Path targetDir = Path.of(workingDirectory,
                 projectDetails.getProjectName(),
                 "src/main/java",
-                packagePath,
-                "controller");
+                packagePath);
 
         Files.createDirectories(targetDir); // Ensure directory exists
 
         // Define target file path
-        Path targetPath = targetDir.resolve(projectDetails.getControllerModel().getControllerClassName() + ".java");
+        Path targetPath = targetDir.resolve(className + ".java");
 
         // Write processed content to the new main class
         Files.writeString(targetPath, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
-        System.out.println("Controller Class created at: " + targetPath);
+        System.out.println("Main Class created at: " + targetPath);
     }
 }

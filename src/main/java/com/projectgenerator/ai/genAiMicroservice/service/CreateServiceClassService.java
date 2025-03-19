@@ -1,7 +1,7 @@
-package com.projectgenerator.ai.aiProjectGenertor.service;
+package com.projectgenerator.ai.genAiMicroservice.service;
 
-import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
-import com.projectgenerator.ai.aiProjectGenertor.service.aiService.ServiceClassPromptService;
+import com.projectgenerator.ai.genAiMicroservice.model.ProjectDetailsModel;
+import com.projectgenerator.ai.genAiMicroservice.service.aiService.ServiceClassPromptService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;

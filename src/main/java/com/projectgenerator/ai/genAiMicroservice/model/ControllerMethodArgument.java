@@ -1,4 +1,4 @@
-package com.projectgenerator.ai.aiProjectGenertor.model;
+package com.projectgenerator.ai.genAiMicroservice.model;
 
 public class ControllerMethodArgument {
 
