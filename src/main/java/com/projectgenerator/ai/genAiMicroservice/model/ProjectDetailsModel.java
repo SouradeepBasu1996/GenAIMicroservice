@@ -9,11 +9,13 @@ public class ProjectDetailsModel {
     private ControllerModel controllerModel;
     private String serviceClassName;
     private EntityModel entity;
+    private String databaseUname;
+    private String databasePword;
 
     public ProjectDetailsModel() {
     }
 
-    public ProjectDetailsModel(String projectName, String groupId, String artifactId, ControllerModel controllerModel,String serviceClassName,EntityModel entityModel, String description) {
+    public ProjectDetailsModel(String projectName, String groupId, String artifactId, ControllerModel controllerModel,String serviceClassName,EntityModel entityModel, String description, String databaseUname, String databasePword) {
         this.projectName = projectName;
         this.groupId = groupId;
         this.artifactId = artifactId;
@@ -21,6 +23,8 @@ public class ProjectDetailsModel {
         this.serviceClassName= serviceClassName;
         this.entity = entityModel;
         this.description=description;
+        this.databaseUname=databaseUname;
+        this.databasePword=databasePword;
     }
 
     public String getProjectName() {
@@ -63,11 +67,11 @@ public class ProjectDetailsModel {
         this.controllerModel = controllerModel;
     }
 
-    public String getServiceClass() {
+    public String getServiceClassName() {
         return serviceClassName;
     }
 
-    public void setServiceClass(String serviceClassName) {
+    public void setServiceClassName(String serviceClassName) {
         this.serviceClassName = serviceClassName;
     }
 
@@ -77,5 +81,21 @@ public class ProjectDetailsModel {
 
     public void setEntity(EntityModel entity) {
         this.entity = entity;
+    }
+
+    public String getDatabaseUname() {
+        return databaseUname;
+    }
+
+    public void setDatabaseUname(String databaseUname) {
+        this.databaseUname = databaseUname;
+    }
+
+    public String getDatabasePword() {
+        return databasePword;
+    }
+
+    public void setDatabasePword(String databasePword) {
+        this.databasePword = databasePword;
     }
 }

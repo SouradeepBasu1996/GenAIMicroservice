@@ -53,7 +53,7 @@ public class RepositoryPromptService {
                 } else {
                     System.out.println("No Java code found!");
                 }
-                return code.trim();
+                return extractedCode.trim();
             }
         }
         return "Failed to get response";

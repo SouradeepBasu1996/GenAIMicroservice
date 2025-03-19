@@ -41,7 +41,7 @@ public class ServiceClassPromptService {
                 code = code.replaceAll("^```\\w*\\n?", "").replaceAll("\\n```$", "");
                 String startTag = "<java>";
                 String endTag = "</java>";
-
+                System.out.println("Service class Code : "+code);
                 int startIndex = code.indexOf(startTag);
                 int endIndex = code.indexOf(endTag);
 
@@ -60,12 +60,12 @@ public class ServiceClassPromptService {
 
         prompt.append("Respond with code only, no explanation required.")
                 .append(" Create a Service class for a Spring Boot Application, with name- ")
-                .append(projectDetailsModel.getServiceClass())
+                .append(projectDetailsModel.getServiceClassName())
                 .append("\n The methods inside the service class should be the written according to the requirements of the controller class code as given below- ")
                 .append("\n")
                 .append(controllerClassCode)
                 .append("\n")
-                .append("Assume that the controller class code already exist, no need to write that again.")
+                .append("Assume all other classes already exists hence do not need to create them.")
                 .append("Enclose the java code with in <java>,</java> tags");
 
         System.out.println("Service class prompt : "+prompt.toString());
