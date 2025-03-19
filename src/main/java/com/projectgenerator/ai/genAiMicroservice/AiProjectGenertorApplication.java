@@ -1,4 +1,4 @@
-package com.projectgenerator.ai.aiProjectGenertor;
+package com.projectgenerator.ai.genAiMicroservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,9 +1,9 @@
-package com.projectgenerator.ai.aiProjectGenertor.service.aiService;
+package com.projectgenerator.ai.genAiMicroservice.service.aiService;
 
-import com.projectgenerator.ai.aiProjectGenertor.model.ControllerMethod;
-import com.projectgenerator.ai.aiProjectGenertor.model.ControllerMethodArgument;
-import com.projectgenerator.ai.aiProjectGenertor.model.EntityFieldModel;
-import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
+import com.projectgenerator.ai.genAiMicroservice.model.ControllerMethod;
+import com.projectgenerator.ai.genAiMicroservice.model.ControllerMethodArgument;
+import com.projectgenerator.ai.genAiMicroservice.model.EntityFieldModel;
+import com.projectgenerator.ai.genAiMicroservice.model.ProjectDetailsModel;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

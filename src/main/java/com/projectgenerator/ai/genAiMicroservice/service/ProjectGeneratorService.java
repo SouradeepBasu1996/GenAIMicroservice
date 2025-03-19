@@ -1,6 +1,6 @@
-package com.projectgenerator.ai.aiProjectGenertor.service;
+package com.projectgenerator.ai.genAiMicroservice.service;
 
-import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
+import com.projectgenerator.ai.genAiMicroservice.model.ProjectDetailsModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

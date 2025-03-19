@@ -1,7 +1,7 @@
-package com.projectgenerator.ai.aiProjectGenertor.controller;
+package com.projectgenerator.ai.genAiMicroservice.controller;
 
-import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
-import com.projectgenerator.ai.aiProjectGenertor.service.ProjectGeneratorService;
+import com.projectgenerator.ai.genAiMicroservice.model.ProjectDetailsModel;
+import com.projectgenerator.ai.genAiMicroservice.service.ProjectGeneratorService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;

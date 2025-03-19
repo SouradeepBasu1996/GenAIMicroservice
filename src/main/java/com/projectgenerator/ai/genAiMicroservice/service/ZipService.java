@@ -1,4 +1,4 @@
-package com.projectgenerator.ai.aiProjectGenertor.service;
+package com.projectgenerator.ai.genAiMicroservice.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

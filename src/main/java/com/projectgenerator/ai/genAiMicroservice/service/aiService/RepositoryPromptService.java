@@ -1,6 +1,7 @@
-package com.projectgenerator.ai.aiProjectGenertor.service.aiService;
+package com.projectgenerator.ai.genAiMicroservice.service.aiService;
 
-import com.projectgenerator.ai.aiProjectGenertor.model.ProjectDetailsModel;
+import com.projectgenerator.ai.genAiMicroservice.model.EntityFieldModel;
+import com.projectgenerator.ai.genAiMicroservice.model.ProjectDetailsModel;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -12,16 +13,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class ServiceClassPromptService {
+public class RepositoryPromptService {
+
     private final RestTemplate restTemplate;
     private final String FASTAPI_URL = "http://localhost:8000/generate";
 
-    public ServiceClassPromptService(RestTemplate restTemplate){
+    public RepositoryPromptService(RestTemplate restTemplate){
         this.restTemplate=restTemplate;
     }
 
-    public String getServiceClassCode(ProjectDetailsModel projectDetailsModel, String controllerClassCode){
-        StringBuilder prompt = getPrompt(projectDetailsModel,controllerClassCode);
+    public String getRepositoryCode(ProjectDetailsModel projectDetailsModel, String serviceClassCode){
+        StringBuilder prompt = getPrompt(projectDetailsModel,serviceClassCode);
         String extractedCode="";
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("prompt", prompt.toString());
@@ -47,28 +49,37 @@ public class ServiceClassPromptService {
 
                 if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
                     extractedCode = code.substring(startIndex + startTag.length(), endIndex).trim();
+                    System.out.println(extractedCode);
                 } else {
                     System.out.println("No Java code found!");
                 }
-                return extractedCode;
+                return code.trim();
             }
         }
         return "Failed to get response";
     }
-    private StringBuilder getPrompt(ProjectDetailsModel projectDetailsModel, String controllerClassCode){
+
+    private StringBuilder getPrompt(ProjectDetailsModel projectDetailsModel, String serviceClassCode){
         StringBuilder prompt = new StringBuilder();
 
         prompt.append("Respond with code only, no explanation required.")
-                .append(" Create a Service class for a Spring Boot Application, with name- ")
-                .append(projectDetailsModel.getServiceClass())
-                .append("\n The methods inside the service class should be the written according to the requirements of the controller class code as given below- ")
+                .append(" Create an Interface for repository class in Spring Boot Application.")
+                .append(" The interface extends JpaRepository")
+                .append(" The repository interface is for the service class- ")
                 .append("\n")
-                .append(controllerClassCode)
+                .append(serviceClassCode)
                 .append("\n")
-                .append("Assume that the controller class code already exist, no need to write that again.")
+                .append("Also for reference, here is the entity class- ")
+                .append(projectDetailsModel.getEntity().getEntityName())
+                .append("having fields- ");
+        for(EntityFieldModel entity:projectDetailsModel.getEntity().getEntityFields()){
+            prompt.append(entity.getFieldName())
+                    .append("(").append(entity.getDataType()).append("), ");
+        }
+        prompt.append("Assume that the service class and the model classes already exists and do not need to be re created.")
                 .append("Enclose the java code with in <java>,</java> tags");
 
-        System.out.println("Service class prompt : "+prompt.toString());
+        System.out.println(" Repository Prompt "+prompt.toString());
 
         return prompt;
     }
