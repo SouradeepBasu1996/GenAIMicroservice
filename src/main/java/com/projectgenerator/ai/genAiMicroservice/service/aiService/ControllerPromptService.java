@@ -43,7 +43,7 @@ public class ControllerPromptService {
             if (responseBody.containsKey("content")) {
                 String code = responseBody.get("content").toString();
                 code = code.replaceAll("^```\\w*\\n?", "").replaceAll("\\n```$", "");
-                System.out.println("Controller code : "+code);
+                System.out.println("Controller Response code : "+code);
                 String startTag = "<java>";
                 String endTag = "</java>";
 
@@ -91,7 +91,7 @@ public class ControllerPromptService {
                     .append(". Inside the method, write the code to achieve the functionality of the method as given in the method description as- ")
                     .append(method.getDescription())
                     .append(". Use the reference of the Service class and model class names to write the code inside the method.")
-                    .append("Service class name- ").append(projectDetailsModel.getServiceClass())
+                    .append("Service class name- ").append(projectDetailsModel.getServiceClassName())
                     .append(". Model class names- ").append(projectDetailsModel.getEntity().getEntityName())
                     .append(" having fields- ");
             for(EntityFieldModel entityField: projectDetailsModel.getEntity().getEntityFields()){
@@ -104,7 +104,7 @@ public class ControllerPromptService {
                 .append("In the response, enclose the java code part within <java>,</java> tags");
 
 
-        System.out.println("Prompt : "+prompt.toString());
+        System.out.println("Controller Prompt : "+prompt.toString());
 
         return prompt;
     }

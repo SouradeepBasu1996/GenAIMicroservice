@@ -33,7 +33,7 @@ public class CreateServiceClassService {
     public void createServiceClass(ProjectDetailsModel projectDetails,String controllerClassCode)throws IOException {
 
         String code = promptService.getServiceClassCode(projectDetails,controllerClassCode);
-        System.out.println("Prompt Response : "+code);
+        System.out.println("Service Prompt Response : "+code);
 
         Map<String, String> placeholders = Map.of(
                 "packageName",projectDetails.getGroupId(),
@@ -67,7 +67,7 @@ public class CreateServiceClassService {
         Files.createDirectories(targetDir); // Ensure directory exists
 
         // Define target file path
-        Path targetPath = targetDir.resolve(projectDetails.getServiceClass()+ ".java");
+        Path targetPath = targetDir.resolve(projectDetails.getServiceClassName()+ ".java");
 
         // Write processed content to the new service class
         Files.writeString(targetPath, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
