@@ -1,13 +1,7 @@
-Here is the JSON payload example for this.
+<pre> Here is the JSON payload example for this.
 
-
-
-
-
-
-
-
-{
+'''json
+    {
     "projectName": "helloAiProject",
     "groupId": "com.online.market",
     "artifactId": "helloAiProject",
@@ -51,4 +45,4 @@ Here is the JSON payload example for this.
             }
         ]
     }
-}
+}'''</pre>
